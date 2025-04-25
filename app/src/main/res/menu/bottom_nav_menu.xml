@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/navigation_view"
+        android:icon="@drawable/ic_list"
+        android:title="View Transa…" />
+
+    <item
+        android:id="@+id/navigation_budget"
+        android:icon="@drawable/ic_budget"
+        android:title="Budget" />
+
+    <item
+        android:id="@+id/navigation_summary"
+        android:icon="@drawable/ic_pie_chart"
+        android:title="Summary" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+
+</menu>

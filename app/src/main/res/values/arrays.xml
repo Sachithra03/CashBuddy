@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="income_categories">
+        <item>Salary</item>
+        <item>Freelancer</item>
+        <item>Gift</item>
+        <item>Investment</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="expense_categories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Shopping</item>
+        <item>Bills</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Shopping</item>
+        <item>Bills</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Salary</item>
+        <item>Freelancer</item>
+        <item>Gift</item>
+        <item>Investment</item>
+        <item>Other</item>
+    </string-array>
+</resources> 

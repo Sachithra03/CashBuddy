@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cashbuddy_background">
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/cashbuddyremovebg"
+        app:layout_constraintBottom_toTopOf="@+id/appCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.391" />
+
+    <TextView
+        android:id="@+id/appCaption"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="12dp"
+        android:lineSpacingExtra="6dp"
+        android:text="Track Smart. Spend Wise. Live Better"
+        android:textAlignment="center"
+        android:textColor="@color/text_secondary"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CashBuddy"
+        android:textColor="@color/cashbuddy_primary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/appCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appLogo"
+        app:layout_constraintVertical_bias="0.164" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/cashbuddy_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
