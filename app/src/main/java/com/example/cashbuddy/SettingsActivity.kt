@@ -14,6 +14,10 @@ import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import com.example.cashbuddy.databinding.ActivitySettingsBinding
+import android.content.SharedPreferences
+import android.widget.ImageButton
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var logoutButton: MaterialButton
@@ -35,10 +39,13 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var dailyReminderSwitch: SwitchMaterial
     private lateinit var reminderTimeButton: MaterialButton
     private lateinit var reminderTimeText: TextView
+    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize helpers
         notificationHelper = NotificationHelper(this)
@@ -87,6 +94,11 @@ class SettingsActivity : AppCompatActivity() {
         reminderTimeButton.setOnClickListener {
             showTimePickerDialog()
         }
+
+        sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        
+        setupDarkModeSwitch()
+        setupBackButton()
     }
 
     private fun initializeViews() {
@@ -423,5 +435,26 @@ class SettingsActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    private fun setupDarkModeSwitch() {
+        val darkModeSwitch = binding.darkModeSwitch
+        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+        darkModeSwitch.isChecked = isDarkMode
+
+        darkModeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean("dark_mode", isChecked).apply()
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+    }
+
+    private fun setupBackButton() {
+        binding.navToolbar.backButton.setOnClickListener {
+            finish()
+        }
     }
 } 

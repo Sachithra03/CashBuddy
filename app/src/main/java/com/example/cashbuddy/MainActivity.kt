@@ -3,6 +3,7 @@ package com.example.cashbuddy
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.os.Build
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -19,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cashbuddy.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.text.NumberFormat
@@ -26,17 +29,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var usernameTextView: TextView
-    private lateinit var currentDateTextView: TextView
-    private lateinit var budgetStatusTextView: TextView
-    private lateinit var budgetProgressBar: ProgressBar
-    private lateinit var percentageTextView: TextView
-    private lateinit var incomeStatusTextView: TextView
-    private lateinit var expenseStatusTextView: TextView
-    private lateinit var recentTransactionsRecyclerView: RecyclerView
-    private lateinit var addTransactionButton: Button
+    private lateinit var binding: ActivityMainBinding
     private lateinit var userManager: UserManager
     private lateinit var notificationHelper: NotificationHelper
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val formatter = NumberFormat.getCurrencyInstance(Locale("en", "LK"))
     private val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
@@ -45,7 +41,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        
+        // Initialize dark mode
+        sharedPreferences = getSharedPreferences("app_settings", MODE_PRIVATE)
+        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         userManager = UserManager(this)
         notificationHelper = NotificationHelper(this)
@@ -86,31 +93,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        usernameTextView = findViewById(R.id.usernameTextView)
-        currentDateTextView = findViewById(R.id.currentDateTextView)
-        budgetStatusTextView = findViewById(R.id.budgetStatusTextView)
-        budgetProgressBar = findViewById(R.id.budgetProgressBar)
-        percentageTextView = findViewById(R.id.percentageTextView)
-        incomeStatusTextView = findViewById(R.id.incomeStatusTextView)
-        expenseStatusTextView = findViewById(R.id.expenseStatusTextView)
-        recentTransactionsRecyclerView = findViewById(R.id.recentTransactionsRecyclerView)
-        addTransactionButton = findViewById(R.id.addTransactionButton)
-
         // Set current date
-        currentDateTextView.text = dateFormat.format(Date())
+        binding.currentDateTextView.text = dateFormat.format(Date())
 
         // Set username
         val currentUser = userManager.getCurrentUser()
-        usernameTextView.text = currentUser?.name ?: "User"
+        binding.usernameTextView.text = currentUser?.name ?: "User"
 
         // Setup RecyclerView
-        recentTransactionsRecyclerView.layoutManager = LinearLayoutManager(this)
-        recentTransactionsRecyclerView.adapter = TransactionAdapter(emptyList())
+        binding.recentTransactionsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recentTransactionsRecyclerView.adapter = TransactionAdapter(emptyList())
     }
 
     private fun setupBottomNavigation() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setOnItemSelectedListener { item ->
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> true
                 R.id.navigation_view -> {
@@ -132,11 +128,11 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        bottomNavigationView.menu.findItem(R.id.navigation_home).isChecked = true
+        binding.bottomNavigationView.menu.findItem(R.id.navigation_home).isChecked = true
     }
 
     private fun setupClickListeners() {
-        addTransactionButton.setOnClickListener {
+        binding.addTransactionButton.setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
     }
@@ -158,9 +154,9 @@ class MainActivity : AppCompatActivity() {
         // Update budget progress
         if (budget > 0) {
             val percentage = (expense / budget * 100).toInt()
-            budgetProgressBar.progress = percentage
-            budgetStatusTextView.text = "${formatter.format(expense)} / ${formatter.format(budget)}"
-            percentageTextView.text = "$percentage% spent"
+            binding.budgetProgressBar.progress = percentage
+            binding.budgetStatusTextView.text = "${formatter.format(expense)} / ${formatter.format(budget)}"
+            binding.percentageTextView.text = "$percentage% spent"
             
             // Update progress bar color based on percentage
             val progressColor = when {
@@ -168,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                 percentage >= 75 -> getColor(R.color.warning)
                 else -> getColor(R.color.success)
             }
-            budgetProgressBar.progressTintList = ColorStateList.valueOf(progressColor)
+            binding.budgetProgressBar.progressTintList = ColorStateList.valueOf(progressColor)
 
             // Check and send budget notifications
             when {
@@ -180,15 +176,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } else {
-            budgetStatusTextView.text = "No budget set"
-            percentageTextView.text = "0% spent"
-            budgetProgressBar.progress = 0
-            budgetProgressBar.progressTintList = ColorStateList.valueOf(getColor(R.color.text_secondary))
+            binding.budgetStatusTextView.text = "No budget set"
+            binding.percentageTextView.text = "0% spent"
+            binding.budgetProgressBar.progress = 0
+            binding.budgetProgressBar.progressTintList = ColorStateList.valueOf(getColor(R.color.text_secondary))
         }
 
         // Update income and expense
-        incomeStatusTextView.text = formatter.format(income)
-        expenseStatusTextView.text = formatter.format(expense)
+        binding.incomeStatusTextView.text = formatter.format(income)
+        binding.expenseStatusTextView.text = formatter.format(expense)
 
         // Update recent transactions
         val transactionPrefs = getSharedPreferences("transactions_${currentUser.email}", Context.MODE_PRIVATE)
@@ -216,7 +212,7 @@ class MainActivity : AppCompatActivity() {
 
         // Sort by date (newest first) and take last 5
         val recentTransactions = transactions.sortedByDescending { it.date }.take(5)
-        (recentTransactionsRecyclerView.adapter as TransactionAdapter).updateTransactions(recentTransactions)
+        (binding.recentTransactionsRecyclerView.adapter as TransactionAdapter).updateTransactions(recentTransactions)
     }
 
     private fun showDailyReminder() {

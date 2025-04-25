@@ -25,22 +25,25 @@
     <color name="income_background">#E8F5E9</color>
     <color name="expense_background">#FFEBEE</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#0A2540</color>
-    <color name="text_secondary">#757575</color>
-
-    <!-- Theme References -->
-    <color name="primary">@color/cashbuddy_primary</color>
-    <color name="primary_dark">#071A2B</color>
-    <color name="primary_light">#0D2E4D</color>
-    <color name="accent">@color/cashbuddy_accent</color>
-    <color name="accent_dark">#1F9B85</color>
-    <color name="accent_light">#35D8BC</color>
+    <!-- Theme Colors -->
+    <color name="primary">#6200EE</color>
+    <color name="primary_variant">#3700B3</color>
+    <color name="secondary">#03DAC6</color>
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#000000</color>
+    <color name="on_background">#000000</color>
+    <color name="on_surface">#000000</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#99000000</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider">#1F000000</color>
+    <color name="ripple">#33000000</color>
 
     <!-- UI Specific Colors -->
-    <color name="background">#FFFFFF</color>
-    <color name="surface">#F5F5F5</color>
-    <color name="error">#F44336</color>
     <color name="success">#2AC2A6</color>
     <color name="warning">#FFC107</color>
     <color name="info">#2196F3</color>
@@ -48,12 +51,9 @@
     <!-- Navigation and Status Colors -->
     <color name="navigation_selector">#0A2540</color>
     <color name="icons">#FFFFFF</color>
-    <color name="divider">#BDBDBD</color>
-
-    <!-- On Colors (for text/icons on colored backgrounds) -->
-    <color name="on_primary">#FFFFFF</color>
-    <color name="on_secondary">#000000</color>
-    <color name="on_background">#212121</color>
-    <color name="on_surface">#212121</color>
-    <color name="on_error">#FFFFFF</color>
+    <color name="primary_dark">#071A2B</color>
+    <color name="primary_light">#0D2E4D</color>
+    <color name="accent">@color/cashbuddy_accent</color>
+    <color name="accent_dark">#1F9B85</color>
+    <color name="accent_light">#35D8BC</color>
 </resources>
